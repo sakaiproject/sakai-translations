@@ -22,7 +22,7 @@ node {
 	// Now download translations from transifex
 	stage 'Download Translations'
 
-	   	dir ('sakai/l10n') {
+	   	dir ('sakai') {
 	   		dir ('l10n') {
 	   			sh "python tmx.py download -r -u -c -l es"
 	   		}
