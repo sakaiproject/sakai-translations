@@ -42,28 +42,24 @@ node {
 	stage ('Download Translations') {
 		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
 	   	dir ('sakai') {
-	   		dir ('l10n') {
-	   			locales.each() {
-	   				sh "python tmx.py download -r -u -c -l ${it}"
-	   			}
-	   		}
-	   		locales.each() {
-	   			sh "git add -N '*_${it}.properties'"
-	   			sh "git diff -- '*_${it}.properties' > ../translation_${it}.patch"
-	   		}
+   			for (int i=0; i<locales.size(); i++) {
+   				sh "l10n/python tmx.py download -r -u -c -l ${locales[i]}"
+	   			sh "git add -N '*_${locales[i]}.properties'"
+	   			sh "git diff -- '*_${locales[i]}.properties' > ../translation_${locales[i]}.patch"
+   			}
 	   	}
 	}   	
 	   	
 	stage ('Publish Patches') {
 	
-		locales.each() {
+		for (int i=0; i<locales.size(); i++) {
 			publishHTML(
 				[allowMissing: false, 
 				 alwaysLinkToLastBuild: false, 
 				 keepAll: false, 
 				 reportDir: '.', 
-				 reportFiles: 'translation_${it}.patch', 
-				 reportName: 'TranslationPatch_${it}'])
+				 reportFiles: 'translation_${locales[i]}.patch', 
+				 reportName: 'TranslationPatch_${locales[i]}'])
 		}
 				
 	}
