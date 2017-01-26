@@ -1,4 +1,14 @@
+properties([[$class: 'BuildDiscarderProperty',
+                strategy: [$class: 'LogRotator', numToKeepStr: '5']],
+                pipelineTriggers([cron('@midnight')]),
+                ])
+
 node {
+
+	def props = readProperties  file: 'translation.properties'
+	def transifex_project = props['PROJECTNAME']
+	def locales = props['LOCALES'].split(',')
+
 	// First checkout the code
 	stage ('Checkout') {
 	
@@ -6,7 +16,7 @@ node {
 		checkout scm
 	   	// Checkout code from sakai repository
 	   	dir('sakai') {
-	   		git ( [url: 'https://github.com/sakaiproject/sakai.git', branch: 'master'] )
+	   		git ( [url: 'https://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
 		   	dir('l10n') {
 		   		git url: 'https://github.com/JaSakai/l10n.git'
 		   	}
@@ -16,7 +26,7 @@ node {
 	
    	// Now run init transifex 
    	stage ('Init Transifex') {
-   	
+   		env.TRANSIFEX_SAKAI_PROJECTNAME='${transifex_project}'
 	   	dir ('sakai/l10n') {
 	   		sh "echo -e '\n' | python tmx.py init"
 	   	}
@@ -24,24 +34,31 @@ node {
 	
 	// Now download translations from transifex
 	stage ('Download Translations') {
-
+		env.TRANSIFEX_SAKAI_PROJECTNAME='${transifex_project}'
 	   	dir ('sakai') {
 	   		dir ('l10n') {
-	   			sh "python tmx.py download -r -u -c -l es"
+	   			for (String locale:locales) {
+	   				sh "python tmx.py download -r -u -c -l ${locale}"
+	   			}
 	   		}
-	   		sh "git diff > ../translation_es.patch"
+	   		for (String locale:locales) {
+	   			sh "git add -N '*_${locale}.properties'"
+	   			sh "git diff -- '*_${locale}.properties' > ../translation_${locale}.patch"
+	   		}
 	   	}
 	}   	
 	   	
 	stage ('Publish Patches') {
 	
-		publishHTML(
-			[allowMissing: false, 
-			 alwaysLinkToLastBuild: false, 
-			 keepAll: false, 
-			 reportDir: '.', 
-			 reportFiles: 'translation_es.patch', 
-			 reportName: 'TranslationPatch_ES'])
-		
+		for (String locale:locales) {
+			publishHTML(
+				[allowMissing: false, 
+				 alwaysLinkToLastBuild: false, 
+				 keepAll: false, 
+				 reportDir: '.', 
+				 reportFiles: 'translation_${locale}.patch', 
+				 reportName: 'TranslationPatch_${locale}'])
+		}
+				
 	}
 }
