@@ -23,7 +23,14 @@ node {
 	stage 'Download Translations'
 
 	   	dir ('sakai/l10n') {
-	   		sh "python tmx.py download -r -u -c -l es"
-	   		sh "find . -name '*_es.properties' -exec svn diff --force -x -wp {} \\; > ../translation_es.patch"
+	   		dir ('l10n') {
+	   			sh "python tmx.py download -r -u -c -l es"
+	   		}
+	   		sh "git diff > ../translation_es.patch"
 	   	}
+	   	
+	   	
+	stage 'Save Patches'
+	
+		archiveArtifacts 'translations_*.patch'
 }
