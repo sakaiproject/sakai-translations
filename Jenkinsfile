@@ -6,11 +6,9 @@ properties([[$class: 'BuildDiscarderProperty',
 node {
 
 	// Clean the workspace
-	stage ('Cleanup') {
-	
-		step([$class: 'WsCleanup'])
-	
-	}
+	//stage ('Cleanup') {
+	//	step([$class: 'WsCleanup'])
+	//}
 
 	// First checkout the code
 	stage ('Checkout') {
@@ -36,7 +34,7 @@ node {
    	stage ('Init Transifex') {
    		env.TRANSIFEX_SAKAI_PROJECTNAME='${transifex_project}'
 	   	dir ('sakai/l10n') {
-	   		sh "echo '\\n' | python tmx.py init"
+	   		sh script: 'python tmx.py init', stdin: '\n'
 	   	}
 	}
 	
