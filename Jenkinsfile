@@ -24,6 +24,6 @@ node {
 
 	   	dir ('sakai/l10n') {
 	   		sh "python tmx.py download -r -u -c -l es"
-	   		sh "find . -name "*_es.properties" -exec svn diff --force -x -wp {} \; > ../translation_es.patch"
+	   		sh "find . -name '*_es.properties' -exec svn diff --force -x -wp {} \; > ../translation_es.patch"
 	   	}
 }
