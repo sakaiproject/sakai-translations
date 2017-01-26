@@ -53,7 +53,6 @@ node {
 	stage ('Publish Patches') {
 	
 		for (int i=0; i<locales.size(); i++) {
-			def 
 			publishHTML(
 				[allowMissing: false, 
 				 alwaysLinkToLastBuild: false, 
