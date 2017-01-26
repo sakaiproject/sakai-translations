@@ -5,6 +5,13 @@ properties([[$class: 'BuildDiscarderProperty',
 
 node {
 
+	// Clean the workspace
+	stage ('Cleanup') {
+	
+		step([$class: 'WsCleanup'])
+	
+	}
+
 	// First checkout the code
 	stage ('Checkout') {
 	
@@ -28,6 +35,7 @@ node {
    	// Now run init transifex 
    	stage ('Init Transifex') {
    		env.TRANSIFEX_SAKAI_PROJECTNAME='${transifex_project}'
+   		echo "${transifex_project}"
 	   	dir ('sakai/l10n') {
 	   		sh "echo -e '\n' | python tmx.py init"
 	   	}
@@ -39,6 +47,7 @@ node {
 	   	dir ('sakai') {
 	   		dir ('l10n') {
 	   			for (String locale:locales) {
+	   				echo "${locale}"
 	   				sh "python tmx.py download -r -u -c -l ${locale}"
 	   			}
 	   		}
