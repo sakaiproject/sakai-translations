@@ -53,13 +53,14 @@ node {
 	stage ('Publish Patches') {
 	
 		for (int i=0; i<locales.size(); i++) {
+			def 
 			publishHTML(
 				[allowMissing: false, 
 				 alwaysLinkToLastBuild: false, 
 				 keepAll: false, 
 				 reportDir: '.', 
-				 reportFiles: 'translation_${locales[i]}.patch', 
-				 reportName: 'TranslationPatch_${locales[i]}'])
+				 reportFiles: 'translation_' + locales[i] + '.patch', 
+				 reportName: 'TranslationPatch_' + locales[i] ])
 		}
 				
 	}
