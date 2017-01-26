@@ -6,9 +6,9 @@ properties([[$class: 'BuildDiscarderProperty',
 node {
 
 	// Clean the workspace
-	//stage ('Cleanup') {
-	//	step([$class: 'WsCleanup'])
-	//}
+	stage ('Cleanup') {
+		step([$class: 'WsCleanup'])
+	}
 
 	// First checkout the code
 	stage ('Checkout') {
