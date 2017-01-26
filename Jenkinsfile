@@ -43,7 +43,7 @@ node {
 		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
 	   	dir ('sakai') {
    			for (int i=0; i<locales.size(); i++) {
-   				sh "l10n/python tmx.py download -r -u -c -l ${locales[i]}"
+   				sh "cd l10n;python tmx.py download -r -u -c -l ${locales[i]};cd .."
 	   			sh "git add -N '*_${locales[i]}.properties'"
 	   			sh "git diff -- '*_${locales[i]}.properties' > ../translation_${locales[i]}.patch"
    			}
