@@ -5,10 +5,6 @@ properties([[$class: 'BuildDiscarderProperty',
 
 node {
 
-	def props = readProperties  file: 'translation.properties'
-	def transifex_project = props['PROJECTNAME']
-	def locales = props['LOCALES'].split(',')
-
 	// First checkout the code
 	stage ('Checkout') {
 	
@@ -23,7 +19,12 @@ node {
 	   	}
 	   	
 	}
-	
+
+	// Read properties after checkout
+	def props = readProperties  file: 'translation.properties'
+	def transifex_project = props['PROJECTNAME']
+	def locales = props['LOCALES'].split(',')
+
    	// Now run init transifex 
    	stage ('Init Transifex') {
    		env.TRANSIFEX_SAKAI_PROJECTNAME='${transifex_project}'
