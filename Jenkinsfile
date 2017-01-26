@@ -1,6 +1,6 @@
 node {
 	// First checkout the code
-	stage 'Checkout'
+	stage ('Checkout') {
 	
 		// Checkout the source from sakai-translations.
 		checkout scm
@@ -12,15 +12,18 @@ node {
 		   	}
 	   	}
 	   	
+	}
+	
    	// Now run init transifex 
-   	stage 'Init Transifex'
+   	stage ('Init Transifex') {
    	
 	   	dir ('sakai/l10n') {
 	   		sh "echo -e '\n' | python tmx.py init"
 	   	}
-
+	}
+	
 	// Now download translations from transifex
-	stage 'Download Translations'
+	stage ('Download Translations') {
 
 	   	dir ('sakai') {
 	   		dir ('l10n') {
@@ -28,9 +31,17 @@ node {
 	   		}
 	   		sh "git diff > ../translation_es.patch"
 	   	}
+	}   	
 	   	
-	   	
-	stage 'Save Patches'
+	stage ('Publish Patches') {
 	
-		archiveArtifacts 'translations_*.patch'
+		publishHTML(
+			[allowMissing: false, 
+			 alwaysLinkToLastBuild: false, 
+			 keepAll: false, 
+			 reportDir: '.', 
+			 reportFiles: 'translation_es.patch', 
+			 reportName: 'TranslationPatch_ES'])
+		
+	}
 }
