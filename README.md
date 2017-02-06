@@ -4,7 +4,8 @@ This project allows you to use a Jenkins server to download translations and cre
 
 # Installation
 - Install a Jenkins 2.x server with pipeline plugins (default installation).
-- Add Pipeline Utility Steps plugin.
+- Add _Pipeline Utility_ Steps plugin.
+- Add _HTML Publisher_ plugin.
 - Create a Multibranch Pipeline job in Jenkins.
 - Set this repo url as source url (or your own fork).
 - Change the translation.properties to add your LOCALE (it must be supported locale in transifex sakai project)
