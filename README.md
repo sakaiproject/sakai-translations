@@ -4,6 +4,7 @@ This project allows you to use a Jenkins server to download translations and cre
 
 # Installation
 - Install a Jenkins 2.x server with pipeline plugins (default installation).
+- You also need python available to run transifex scripts.
 - Add _Pipeline Utility_ Steps plugin.
 - Add _HTML Publisher_ plugin.
 - Create a Multibranch Pipeline job in Jenkins.
