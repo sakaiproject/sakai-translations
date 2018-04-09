@@ -34,6 +34,7 @@ node {
    	stage ('Init Transifex') {
    		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
 	   	dir ('sakai/l10n') {
+			sh 'ls -la'
 	   		sh 'echo -e "\n" | python tmx.py init'
 	   	}
 	}
