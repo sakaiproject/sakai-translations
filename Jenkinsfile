@@ -18,9 +18,12 @@ node {
 	   	// Checkout code from sakai repository
 	   	dir('sakai') {
 	   		git ( [url: 'https://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
-		   	dir('l10n') {
-		   		git url: 'https://github.com/JaSakai/l10n.git'
-		   	}
+	   	}
+	   	// Move files inside sakai/l10n folder to work properly
+	   	dir('.') {
+	   		sh 'rm -rf sakai/l10n'
+	   		sh 'mkdir sakai/l10n'
+	   		sh 'cp l10n/* sakai/l10n/.'
 	   	}
 	   	
 	}
