@@ -17,7 +17,7 @@ node {
 		checkout scm
 	   	// Checkout code from sakai repository
 	   	dir('sakai') {
-	   		git ( [url: 'git://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
+	   		git ( [url: 'https://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
 	   	}
 	   	// Move files inside sakai/l10n folder to work properly
 	   	dir('.') {
