@@ -42,7 +42,7 @@ node {
 	}
 	
 	// Now upload translations to transifex
-	stage ('Download Translations') {
+	stage ('Upload Translations') {
 		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
 	   	dir ('sakai/l10n') {
 			sh "python tmx.py update --java2po"
