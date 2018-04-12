@@ -17,7 +17,7 @@ node {
 		checkout scm
 	   	// Checkout code from sakai repository
 	   	dir('sakai') {
-	   		git ( [url: 'git://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
+	   		git ( [url: 'https://github.com/sakaiproject/sakai.git', branch: env.BRANCH_NAME] )
 	   	}
 	   	// Move files inside sakai/l10n folder to work properly
 	   	dir('.') {
@@ -41,6 +41,15 @@ node {
 	   	}
 	}
 	
+	// Now upload translations to transifex
+	stage ('Download Translations') {
+		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
+	   	dir ('sakai/l10n') {
+			sh "python tmx.py update --java2po"
+   			sh "python tmx.py upload -m -v"
+	   	}
+	}   	
+
 	// Now download translations from transifex
 	stage ('Download Translations') {
 		env.TRANSIFEX_SAKAI_PROJECTNAME=transifex_project
@@ -54,7 +63,6 @@ node {
 	}   	
 	   	
 	stage ('Publish Patches') {
-	
 		for (int i=0; i<locales.size(); i++) {
 			publishHTML(
 				[allowMissing: false, 
@@ -64,6 +72,5 @@ node {
 				 reportFiles: 'translation_' + locales[i] + '.patch', 
 				 reportName: 'TranslationPatch_' + locales[i] ])
 		}
-				
 	}
 }
