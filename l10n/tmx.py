@@ -122,7 +122,7 @@ def UploadToTransifex(args):
                 print("Module '%s' does not exist." % module)
 
     if args.master:
-        param = ['tx', 'push', '-sf', '--no-interactive']
+        param = ['tx', 'push', '-sf', '--no-interactive', '--skip']
         if modules is not None:
             param.append('-r')
             for module in modules:
