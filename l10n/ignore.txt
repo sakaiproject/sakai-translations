@@ -12,6 +12,9 @@ radeox_markup
 defaultJdbc.properties
 velocity.properties
 sakai.properties
+sakai.es.properties
+sakai.nosearch.properties
+security.properties
 auto.sakai.properties
 default.sakai.properties
 demo.sakai.properties
