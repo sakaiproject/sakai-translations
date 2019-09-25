@@ -45,3 +45,23 @@ docker run --rm -v ${PWD}:/base -w /base/l10n transifex-cli python tmx.py --help
 ```
 subprocess.call(['tx', 'init', '--skipsetup'])
 ```
+
+# Example
+
+Import translations (locale xxx) from an existing property file to a not translated module in transifex.
+
+```
+docker run --rm -v ${PWD}:/base -w /base/l10n transifex-cli python tmx.py update -p -l xxx rubrics
+```
+
+Now you will have a .po file inside l10n/xxx/rubrics.po. You can upload with another command or using transifex web interface.
+
+```
+docker run --rm -v ${PWD}:/base -w /base/l10n transifex-cli python tmx.py upload -l xxx rubrics
+```
+
+You can do both actions using a single command:
+
+```
+docker run --rm -v ${PWD}:/base -w /base/l10n transifex-cli python tmx.py upload -u -l xxx rubrics
+```
