@@ -1,6 +1,32 @@
 # Sakai Translations Pipeline
-Keep sakai translations up to date.
-This project allows you to use a Jenkins server to download translations and create a patch ready to apply in order to keep sakai translations updated.
+
+This project keeps the scripts for automatic Sakai translation into several locales using Transifex.
+If you are interested in translate Sakai go to Transifex (https://www.transifex.com/apereo/) and request your locale or start to collaborate in any locale.
+
+## How to apply your translations
+
+You need to translate and review all strings for the locale you are interested in. If you have remaining or unreviewed translations the patch generated will be partially in english.
+
+Now go to community Jenkins server and download the patch for yor locale from here: https://jenkins.nightly.sakaiproject.org/job/sakai-translations/job/master/
+
+If your locale is not included in the list please send an issue here (https://github.com/sakaiproject/sakai-translations/issues) to ask for your locale to be included.
+
+Now you have to fork sakai repo and clone your fork to create your translation patch:
+
+```
+git clone https://github.com/<myforkedaccount>/sakai
+git checkout -b SAK-TranslationJiraTicket
+git apply --whitespace=nowarn translation_<your_locale>.patch
+git add .
+git commit -m "SAK-TranslationJiraTicket Uploading translations for <your locale>."
+git push origin SAK-TranslationJiraTicket
+```
+
+Then go to GitHub and create a new Pull Request and wait for review.
+
+# Advanced
+
+This information is for administrators to install this in a new Jenkins server or to do the work that Jenkins does manually.
 
 # Installation
 - Install a Jenkins 2.x server with pipeline plugins (default installation).
@@ -65,3 +91,10 @@ You can do both actions using a single command:
 ```
 docker run --rm -v ${PWD}:/base -w /base/l10n transifex-cli python tmx.py upload -u -l xxx rubrics
 ```
+
+You probably need a transifex token for run some commands so try to mound your local transifex file.
+
+```
+docker run --rm -v ${PWD}:/base -v ~/.transifexrc:/root/.transifexrc -w /base/l10n transifex-cli python tmx.py ...
+```
+

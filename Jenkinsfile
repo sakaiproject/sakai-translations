@@ -56,8 +56,9 @@ node {
 	   	dir ('sakai') {
    			for (int i=0; i<locales.size(); i++) {
    				sh "cd l10n;python tmx.py download -r -u -c -l ${locales[i]};cd .."
-	   			sh "git add -N '*_${locales[i]}.properties'"
-	   			sh "git diff --ignore-space-at-eol -- '*_${locales[i]}.properties' > ../translation_${locales[i]}.patch"
+	   			sh "git add '*_${locales[i]}.properties'"
+	   			sh "git diff --staged --ignore-space-at-eol -- '*_${locales[i]}.properties' > ../translation_${locales[i]}.patch"
+				sh "git reset HEAD"
    			}
 	   	}
 	}   	
