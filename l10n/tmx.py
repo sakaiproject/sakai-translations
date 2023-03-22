@@ -122,7 +122,7 @@ def UploadToTransifex(args):
                 print("Module '%s' does not exist." % module)
 
     if args.master:
-        param = ['tx', 'push', '-sf', '--no-interactive', '--skip']
+        param = ['tx', 'push', '-sf', '--skip']
         if modules is not None:
             param.append('-r')
             for module in modules:
@@ -136,8 +136,7 @@ def UploadToTransifex(args):
             subprocess.call(param)
 
     elif args.language is not None:
-        param = ['tx', 'push', '--skip', '-tf',
-                 '--no-interactive', '-l', args.language]
+        param = ['tx', 'push', '--skip', '-tf', '-l', args.language]
         if modules is not None:
             param.append('-r')
             for module in modules:
