@@ -101,12 +101,24 @@ def EnumLanguages():
 def InitializeTransifex(args):
     subprocess.call(['tx', 'init'])
 
+    #subprocess.call(['tx', 'add', 'remote', 
+    #    '--file-filter', 'templates/<lang>/<resource_slug>.<ext>',
+    #    'https://www.transifex.com/apereo/sakai-trunk/dashboard/'])
+
     modules = EnumModules(srcroot)
     l10n.l10n(modules, False, None, False, False)
 
     for module in modules:
-        subprocess.call(['tx', 'set', '--auto-local', '-t', 'PO', '-r', __resource__(module), '<lang>/' +
-                         module + '.po', '--source-lang', 'en', '--source-file', 'templates/' + module + '.pot', '--execute'])
+        print("Adding module '%s'." % module)
+        subprocess.call(['tx', 'add', 
+                            '--organization', 'apereo', 
+                            '--project', project_name,
+                            '--file-filter', '<lang>/' + module + '.po', 
+                            '--type', 'PO', 
+                            '--resource', module,
+                            '--resource-name', module, 
+                            'templates/' + module + '.pot', 
+                            ])
 
 
 # Upload resources to Transifex
