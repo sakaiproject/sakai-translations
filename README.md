@@ -1,7 +1,7 @@
 # Sakai Translations Pipeline
 
 This project keeps the scripts for automatic Sakai translation into several locales using Transifex.
-If you are interested in translate Sakai go to Transifex (https://www.transifex.com/apereo/) and request your locale or start to collaborate in any locale.
+If you are interested in translate Sakai go to Transifex (https://explore.transifex.com/apereo/) and request your locale or start to collaborate in any locale.
 
 ## How to apply your translations
 
