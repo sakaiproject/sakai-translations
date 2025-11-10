@@ -51,3 +51,8 @@ UserAttributeRoleProvider.properties
 content_type_classes.properties
 application.properties
 catalina.properties
+log4j2.properties
+hibernate.properties
+kernel.properties
+content_type_extension.properties
+some-peculiar.properties

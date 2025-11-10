@@ -65,10 +65,10 @@ def __resource__(module):
 def EnumModules(root):
     list = []
     for dirname in os.listdir(root):
-        # Ignore some special folders (including kernel module)
+        # Ignore some special folders
         # if dirname != cwdirname and not dirname.startswith( '.' ) and
         # os.path.isdir( os.path.join( root, dirname ) ):
-        if dirname != cwdirname and not dirname.startswith('.') and os.path.isdir(os.path.join(root, dirname)) and dirname != 'kernel':
+        if dirname != cwdirname and not dirname.startswith('.') and os.path.isdir(os.path.join(root, dirname)):
             list.append(dirname)
 
     return(list)
