@@ -56,3 +56,4 @@ hibernate.properties
 kernel.properties
 content_type_extension.properties
 some-peculiar.properties
+test.properties
